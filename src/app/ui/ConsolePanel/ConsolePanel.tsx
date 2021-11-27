@@ -1,14 +1,13 @@
-import { Subject } from 'rxjs';
-
-import React, { useEffect, useReducer } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Subject, bindCallback } from 'rxjs';
 
 import './App.css';
-import { ConsolePanel } from './ConsolePanel';
 
-import {ActionConsole} from './types';
+import {ActionConsole, ConsoleActionType} from './types';
 import { Timer } from '../entity/Timer';
-import {ResponsiveConsole} from "./ResponsiveConsole";
-import {ValueButton} from "./ValueButton";
+import { ResponsiveConsole } from './ResponsiveConsole';
+import { ValueButton } from './ValueButton';
+import { TimeTable } from './service/TimeTable';
 
 const timers = [
   new Timer(1000),
@@ -17,9 +16,21 @@ const timers = [
   new Timer(4000),
 ];
 
-const subject = new Subject<ActionConsole>();
+const consoleSubject = new Subject<ActionConsole>();
+const timeTableSubject = new TimeTable();
 
 type NewValueHandler = (timeoutSeconds: number) => void;
+
+const createSubject = () => {
+  const console = new Subject<ActionConsole>();
+  const timeTable = new TimeTable();
+  const subject = {
+    console,
+    timeTable,
+  };
+
+  return subject;
+};
 
 const renderTimerButtons = (values: Timer[], onNewValue: NewValueHandler, caption: string) => {
   return values.map((value) => {
@@ -35,17 +46,44 @@ const renderTimerButtons = (values: Timer[], onNewValue: NewValueHandler, captio
 };
 
 export function ConsolePanel() {
+  const [subject] = useState(createSubject);
+
+  useEffect(() => {
+    const subscription = subject.timeTable.subscribe((newLineAction) => {
+      subject.console.next(newLineAction);
+    });
+
+    const  = (timer, cb) => {
+      cb(timer);
+      subject.timeTable.next({
+
+      });
+    };
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [subject]);
+
+  const handleNewTimer = useCallback((timer) => {
+    subject.timeTable.next({
+
+    });
+  }, []);
+
+  bindCallback();
 
   return (
-    <div className="App">
+    <div className='App'>
       <div>
         <div>
           {renderTimerButtons(timers, handleNewTimer, 'Таймер')}
         </div>
         <div>
           <button onClick={() => {
-            clearTimeout(timoutDescriptor);
-            console.current.emit('clear');
+            subject.console.next({
+              type: ConsoleActionType.CLEAR,
+            })
           }}>
             Сбросить
           </button>

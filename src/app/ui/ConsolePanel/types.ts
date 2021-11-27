@@ -9,7 +9,7 @@ type ActionClear = {
   type: ConsoleActionType.CLEAR,
 };
 
-type ActionNewLine = {
+export type ActionNewLine = {
   type: ConsoleActionType.NEW_LINE,
   line: string,
 };

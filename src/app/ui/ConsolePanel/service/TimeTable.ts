@@ -1,18 +1,23 @@
+import { Subject } from 'rxjs';
+
 import {
+  ActionNewLine,
   ConsoleActionType,
-  SubjectConsole,
 } from '../types';
 
 import { Timer } from '../../entity/Timer';
 import { TimerRecord } from '../../entity/TimerRecord';
 
-export class TimeTable {
+export class TimeTable extends Subject<ActionNewLine> {
 
   private timeRecords: TimerRecord[];
 
-  constructor(private consoleSubject: SubjectConsole) {
+  private timeoutID: NodeJS.Timeout|null;
+
+  constructor() {
+    super();
     this.timeRecords = [];
-    this.timeoutDescriptor = null;
+    this.timeoutID = null;
   }
 
   addRecord(record: TimerRecord) {
@@ -27,8 +32,33 @@ export class TimeTable {
     this.timeRecords.pop();
   }
 
-  goOn() {
+  startTimeout(timeRecord: TimerRecord) {
+    const now = Date.now();
+    const timeout = timeRecord.finishMsTime - now;
 
+    this.timeoutID = setTimeout(this.goOn, timeout);
+  }
+
+  finishAllExpired() {
+    const now = Date.now();
+    const firstExpiredRecord = this.timeRecords.findIndex((timeRecord) => {
+      return timeRecord.finishMsTime > now;
+    });
+
+    const finishedRecords = this.timeRecords.slice(firstExpiredRecord + 1);
+    this.timeRecords = this.timeRecords.slice(0, firstExpiredRecord);
+
+    this.log(finishedRecords)
+  }
+
+  goOn = () => {
+    this.finishAllExpired();
+
+    if (this.timeoutID === null &&
+      !!this.timeRecords.length) {
+      const lastRecord = this.timeRecords[this.timeRecords.length - 1];
+      this.startTimeout(lastRecord);
+    }
   }
 
   handleNewTimer(timer: Timer) {
@@ -47,10 +77,13 @@ export class TimeTable {
     this.goOn();
   }
 
-  clearConsole() {
-    this.consoleSubject.next({
-      type: ConsoleActionType.CLEAR,
-    });
+  log(finishedRecords: TimerRecord[]) {
+    for (let i = finishedRecords.length - 1; i > -1; i -= 1) {
+      this.next({
+        type: ConsoleActionType.NEW_LINE,
+        line: String(finishedRecords[i]),
+      });
+    }
   }
 
 }
