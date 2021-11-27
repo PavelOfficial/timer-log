@@ -1,6 +1,6 @@
 import Timer from './Timer';
 
-class TimerRecord {
+export class TimerRecord {
 
   static formatTime(msTime: number) {
     const date = new Date(msTime);
@@ -18,7 +18,3 @@ class TimerRecord {
   }
 
 }
-
-export { TimerRecord };
-
-export default TimerRecord;

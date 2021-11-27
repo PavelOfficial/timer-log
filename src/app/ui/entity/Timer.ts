@@ -1,4 +1,4 @@
-class Timer {
+export class Timer {
 
   constructor(public timeout: number) {}
 
@@ -9,7 +9,5 @@ class Timer {
   }
 
 }
-
-export { Timer };
 
 export default Timer;
