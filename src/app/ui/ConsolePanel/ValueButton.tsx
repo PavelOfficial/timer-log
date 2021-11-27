@@ -9,21 +9,14 @@ type Props = {
   renderCaption?: (value: any, caption: string) => string
 }
 
-const defaults = {
-  renderCaption: (value: any, caption: string) => {
-    return `${caption} ${value !== undefined ? String(value) : ''}`;
-  },
-};
-
 export const ValueButton:FunctionComponent<Props> = ({
  caption = '',
  value = undefined,
  onClick = noop,
- renderCaption= defaults.renderCaption,
 }) => {
   return (
     <button onClick={() => onClick(value)}>
-      {renderCaption(caption, value)}
+      {`${caption} ${value !== undefined ? String(value) : ''}`}
     </button>
   );
 };

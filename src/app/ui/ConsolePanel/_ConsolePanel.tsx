@@ -1,8 +1,8 @@
-import React, {MouseEventHandler} from 'react';
+import React, { MouseEventHandler } from 'react';
 
 import { ValueButton } from './ValueButton';
-import { Console } from './Console';
-import { IConsoleEmitter } from '../types';
+import { ConsoleObservable }  from './types';
+import { ResponsiveConsole } from './ResponsiveConsole';
 
 type NewValueHandler = (timeoutSeconds: number) => void;
 
@@ -10,7 +10,7 @@ type Props = {
   timers: number[],
   onClear: MouseEventHandler<HTMLButtonElement>,
   onNewTimer: NewValueHandler,
-  consoleEmitter: IConsoleEmitter,
+  consoleSubject: ConsoleObservable,
 };
 
 const renderTimerButtons = (values: number[], onNewValue: NewValueHandler, caption: string) => {
@@ -25,7 +25,7 @@ const renderTimerButtons = (values: number[], onNewValue: NewValueHandler, capti
   });
 };
 
-export const ConsolePanel = (props: Props) => {
+export const _ConsolePanel = (props: Props) => {
   return (
     <div className="App">
       <div>
@@ -38,10 +38,13 @@ export const ConsolePanel = (props: Props) => {
           </button>
         </div>
       </div>
-      <div>Логи</div>
-      <Console consoleEmitter={props.consoleEmitter} />
+      <div>
+        Логи
+      </div>
+      <ResponsiveConsole
+        consoleSubject={props.consoleSubject}
+      />
     </div>
   );
 };
 
-export default ConsolePanel;
