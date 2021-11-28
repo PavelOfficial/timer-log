@@ -15,21 +15,19 @@ const renderLine = (line: string) => {
 const renderLines = (lines: string[]) => {
   const result = [];
 
-  for (let i = lines.length - 1; i > -1; i++) {
+  for (let i = lines.length - 1; i > -1; i -= 1) {
     const line = renderLine(lines[i]);
 
     result.push(line);
   }
 
-  return result;
+  return result.join('');
 };
 
 export const Console:React.FunctionComponent<Props> = ({
  lines = [],
 }: Props) => {
   return (
-    <textarea>
-      {renderLines(lines)}
-    </textarea>
+    <textarea value={renderLines(lines)}></textarea>
   );
 };

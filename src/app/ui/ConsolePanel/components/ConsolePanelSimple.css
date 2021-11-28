@@ -1,0 +1,29 @@
+
+.console__container {
+    margin: 30px auto 0 auto;
+    width: 550px;
+}
+
+.console__controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.button-group > * {
+    margin-right: 5px;
+}
+
+.console__log-header {
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.console__textarea textarea {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 300px;
+}

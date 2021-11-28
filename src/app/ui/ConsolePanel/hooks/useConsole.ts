@@ -9,13 +9,12 @@ import {
 const reducer = (lines: string[], action: ActionConsole) => {
   switch (action.type) {
     case ConsoleActionType.NEW_LINE:
-      lines.push(action.line);
-
-      return lines;
+      return [
+        ...lines,
+        action.line,
+      ];
     case ConsoleActionType.CLEAR:
-      lines = [];
-
-      return lines;
+      return [];
     default:
       return lines;
   }
@@ -29,7 +28,7 @@ export const useConsole = (subject: Subject<ActionConsole>) => {
     return () => {
       subscription.unsubscribe();
     };
-  }, [subject]);
+  }, [subject, dispatch]);
 
   return lines;
 };

@@ -40,19 +40,25 @@ export class TimeTable {
   finishAllExpired() {
     const now = Date.now();
     const firstExpiredRecord = this.timeRecords.findIndex((timeRecord) => {
-      return timeRecord.finishMsTime > now;
+      return now >= timeRecord.finishMsTime;
     });
 
-    const finishedRecords = this.timeRecords.slice(firstExpiredRecord + 1);
-    this.timeRecords = this.timeRecords.slice(0, firstExpiredRecord);
+    if (firstExpiredRecord !== -1) {
+      const finishedRecords = this.timeRecords.slice(firstExpiredRecord);
+      this.timeRecords = this.timeRecords.slice(0, firstExpiredRecord);
 
-    this.log(finishedRecords)
+      this.log(finishedRecords)
+    }
   }
 
   goOn = () => {
+    if (this.timeoutID !== null) {
+      return;
+    }
+
     this.finishAllExpired();
 
-    if (this.timeoutID === null && !!this.timeRecords.length) {
+    if (this.timeRecords.length) {
       const lastRecord = this.timeRecords[this.timeRecords.length - 1];
       this.startTimeout(lastRecord);
     }

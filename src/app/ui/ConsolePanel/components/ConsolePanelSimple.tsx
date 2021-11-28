@@ -6,6 +6,8 @@ import { Timer } from '../entity/Timer';
 import { ValueButton } from './ValueButton';
 import { ActionConsole } from "../types";
 
+import './ConsolePanelSimple.css'
+
 type NewValueHandler = (timer: Timer) => void;
 
 type Props = {
@@ -30,9 +32,9 @@ const renderTimerButtons = (values: Timer[], onNewValue: NewValueHandler, captio
 
 export const ConsolePanelSimple = (props: Props) => {
   return (
-    <div className='App'>
-      <div>
-        <div>
+    <div className='console__container'>
+      <div className='console__controls'>
+        <div className='button-group'>
           {renderTimerButtons(props.timers, props.onNewTimer, 'Таймер')}
         </div>
         <div>
@@ -41,12 +43,14 @@ export const ConsolePanelSimple = (props: Props) => {
           </button>
         </div>
       </div>
-      <div>
+      <div className='console__log-header'>
         Логи
       </div>
-      <ResponsiveConsole
-        subjectConsole={props.subjectConsole}
-      />
+      <div className='console__textarea'>
+        <ResponsiveConsole
+          subjectConsole={props.subjectConsole}
+        />
+      </div>
     </div>
   );
 };
