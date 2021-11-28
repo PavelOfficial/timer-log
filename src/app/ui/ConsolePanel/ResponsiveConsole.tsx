@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { useConsole } from './useConsole';
-import { Console } from './Console';
+import { Console } from './components/Console';
+import { useConsole } from './hooks/useConsole';
 
 type Props = {
-  consoleSubject: any
+  subjectConsole: any
 };
 
-export const ResponsiveConsole = ({ consoleSubject }: Props) => {
-  const lines = useConsole(consoleSubject);
+export const ResponsiveConsole = ({ subjectConsole }: Props) => {
+  const lines = useConsole(subjectConsole);
 
   return (
     <Console

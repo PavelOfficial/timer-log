@@ -5,38 +5,36 @@ import {
   ConsoleActionType,
 } from '../types';
 
-import { Timer } from '../../entity/Timer';
-import { TimerRecord } from '../../entity/TimerRecord';
+import { Timer } from '../entity/Timer';
+import { TimerRecord } from '../entity/TimerRecord';
 
-export class TimeTable extends Subject<ActionNewLine> {
+export class TimeTable {
 
   private timeRecords: TimerRecord[];
 
   private timeoutID: NodeJS.Timeout|null;
 
+  public subject: Subject<ActionNewLine>;
+
   constructor() {
-    super();
     this.timeRecords = [];
     this.timeoutID = null;
+    this.subject = new Subject<ActionNewLine>();
   }
 
   addRecord(record: TimerRecord) {
     this.timeRecords.unshift(record);
   }
 
-  clearRecords() {
-    this.timeRecords = [];
-  }
-
-  finishRecord() {
-    this.timeRecords.pop();
-  }
-
   startTimeout(timeRecord: TimerRecord) {
     const now = Date.now();
     const timeout = timeRecord.finishMsTime - now;
 
-    this.timeoutID = setTimeout(this.goOn, timeout);
+    this.timeoutID = setTimeout(() => {
+      this.timeoutID = null;
+
+      this.goOn();
+    }, timeout);
   }
 
   finishAllExpired() {
@@ -54,14 +52,13 @@ export class TimeTable extends Subject<ActionNewLine> {
   goOn = () => {
     this.finishAllExpired();
 
-    if (this.timeoutID === null &&
-      !!this.timeRecords.length) {
+    if (this.timeoutID === null && !!this.timeRecords.length) {
       const lastRecord = this.timeRecords[this.timeRecords.length - 1];
       this.startTimeout(lastRecord);
     }
   }
 
-  handleNewTimer(timer: Timer) {
+  handleNewTimer = (timer: Timer) => {
     let finishMsTime;
     const orderMsTime = Date.now();
     const lastTimeRecord = this.timeRecords[0];
@@ -79,10 +76,16 @@ export class TimeTable extends Subject<ActionNewLine> {
 
   log(finishedRecords: TimerRecord[]) {
     for (let i = finishedRecords.length - 1; i > -1; i -= 1) {
-      this.next({
+      this.subject.next({
         type: ConsoleActionType.NEW_LINE,
         line: String(finishedRecords[i]),
       });
+    }
+  }
+
+  complete() {
+    if (this.timeoutID !== null) {
+      clearTimeout(this.timeoutID);
     }
   }
 

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
-import { noop } from '../utils/function'
+const noop = (() => {});
 
 type Props = {
   onClick?: (value: any) => void,

@@ -1,5 +1,3 @@
-import { Subject } from 'rxjs';
-
 export enum ConsoleActionType {
   CLEAR,
   NEW_LINE,
@@ -15,4 +13,3 @@ export type ActionNewLine = {
 };
 
 export type ActionConsole = ActionClear | ActionNewLine;
-export type SubjectConsole = Subject<ActionConsole>;

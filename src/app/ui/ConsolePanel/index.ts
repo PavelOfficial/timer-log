@@ -1,1 +1,1 @@
-export { _ConsolePanel } from './ConsolePanel'
+export { ConsolePanel } from './ConsolePanel'

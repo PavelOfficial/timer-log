@@ -1,10 +1,10 @@
+import { Subject } from 'rxjs';
 import { useReducer, useEffect } from 'react';
 
 import {
-  ConsoleObservable,
   ActionConsole,
   ConsoleActionType,
-} from '../../ui/types';
+} from '../types';
 
 const reducer = (lines: string[], action: ActionConsole) => {
   switch (action.type) {
@@ -21,7 +21,7 @@ const reducer = (lines: string[], action: ActionConsole) => {
   }
 };
 
-export const useConsole = (subject: ConsoleObservable) => {
+export const useConsole = (subject: Subject<ActionConsole>) => {
   const [lines, dispatch] = useReducer(reducer, []);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export const useConsole = (subject: ConsoleObservable) => {
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [subject]);
 
   return lines;
 };
