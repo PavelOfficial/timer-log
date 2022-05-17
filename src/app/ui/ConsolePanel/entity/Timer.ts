@@ -1,5 +1,4 @@
 export class Timer {
-
   constructor(public id: number, public timeout: number) {}
 
   toString() {
@@ -7,7 +6,4 @@ export class Timer {
 
     return String(value);
   }
-
 }
-
-export default Timer;

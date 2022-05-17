@@ -1,10 +1,7 @@
-import {useCallback, useEffect, useState} from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Subject } from 'rxjs';
 
-import {
-  ActionConsole,
-  ConsoleActionType,
-} from '../types';
+import { ActionConsole, ConsoleActionType } from '../types';
 
 import { TimeTable } from '../service/TimeTable';
 
@@ -37,7 +34,9 @@ export const useConsolePanel = () => {
     };
   }, [subject]);
 
-  const handleClear = useCallback(() => { setSubject(createSubject()) }, [setSubject]);
+  const handleClear = useCallback(() => {
+    setSubject(createSubject());
+  }, [setSubject]);
 
   return {
     subject,

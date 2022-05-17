@@ -1,18 +1,14 @@
 import { Subject } from 'rxjs';
 
-import {
-  ActionNewLine,
-  ConsoleActionType,
-} from '../types';
+import { ActionNewLine, ConsoleActionType } from '../types';
 
 import { Timer } from '../entity/Timer';
 import { TimerRecord } from '../entity/TimerRecord';
 
 export class TimeTable {
-
   private timeRecords: TimerRecord[];
 
-  private timeoutID: NodeJS.Timeout|null;
+  private timeoutID: NodeJS.Timeout | null;
 
   public subject: Subject<ActionNewLine>;
 
@@ -47,7 +43,7 @@ export class TimeTable {
       const finishedRecords = this.timeRecords.slice(firstExpiredRecord);
       this.timeRecords = this.timeRecords.slice(0, firstExpiredRecord);
 
-      this.log(finishedRecords)
+      this.log(finishedRecords);
     }
   }
 
@@ -60,9 +56,12 @@ export class TimeTable {
 
     if (this.timeRecords.length) {
       const lastRecord = this.timeRecords[this.timeRecords.length - 1];
-      this.startTimeout(lastRecord);
+
+      if (lastRecord) {
+        this.startTimeout(lastRecord);
+      }
     }
-  }
+  };
 
   handleNewTimer = (timer: Timer) => {
     let finishMsTime;
@@ -78,7 +77,7 @@ export class TimeTable {
     const timeRecord = new TimerRecord(orderMsTime, finishMsTime, timer);
     this.addRecord(timeRecord);
     this.goOn();
-  }
+  };
 
   log(finishedRecords: TimerRecord[]) {
     for (let i = finishedRecords.length - 1; i > -1; i -= 1) {
@@ -94,7 +93,6 @@ export class TimeTable {
       clearTimeout(this.timeoutID);
     }
   }
-
 }
 
 export default TimeTable;

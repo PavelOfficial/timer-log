@@ -1,26 +1,36 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
+    "baseUrl": "./",
+    "noUnusedParameters": true,
     "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
+    "sourceMap": true,
+    "module": "es2020",
     "moduleResolution": "node",
+    "outDir": "./dist/",
+    "strict": true,
+    "noImplicitOverride": true,
+    "target": "es6",
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": false,
+    "allowJs": false,
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
   },
   "include": [
-    "src"
-  ]
+    "src",
+    "webpack",
+    "mock-middleware",
+    ".eslintrc.js",
+    "mock-server",
+    "jest.config.ts",
+    "jest-setup.ts",
+    "jest"
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs",
+      "resolveJsonModule": true
+    }
+  }
 }

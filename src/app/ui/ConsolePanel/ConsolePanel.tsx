@@ -1,10 +1,11 @@
 import React from 'react';
 
 import { Timer } from './entity/Timer';
-import { ConsolePanelSimple } from "./components/ConsolePanelSimple";
-import { useConsolePanel } from "./hooks/useConsolePanel";
+import { ConsolePanelSimple } from './components/ConsolePanelSimple';
+import { useConsolePanel } from './hooks/useConsolePanel';
 
 const timers = [
+  //
   new Timer(1, 1000),
   new Timer(2, 2000),
   new Timer(3, 3000),
@@ -12,10 +13,7 @@ const timers = [
 ];
 
 export function ConsolePanel() {
-  const {
-    subject,
-    handleClear,
-  } = useConsolePanel();
+  const { subject, handleClear } = useConsolePanel();
 
   return (
     <ConsolePanelSimple

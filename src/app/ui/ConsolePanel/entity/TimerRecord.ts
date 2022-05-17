@@ -1,11 +1,10 @@
-import Timer from './Timer';
+import { Timer } from './Timer';
 
-const leadingZero = (value:number) => {
-  return ('0' + value).slice(-2);
+const leadingZero = (value: number) => {
+  return `0${value}`.slice(-2);
 };
 
 export class TimerRecord {
-
   static formatTime(msTime: number) {
     const date = new Date(msTime);
     const hours = leadingZero(date.getHours());
@@ -24,5 +23,4 @@ export class TimerRecord {
 
     return `${finishTimeFormatted}: ${timerSeconds} / ${orderTimeFormatted}`;
   }
-
 }

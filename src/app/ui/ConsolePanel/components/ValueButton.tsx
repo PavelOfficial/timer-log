@@ -1,21 +1,20 @@
 import React, { FunctionComponent } from 'react';
 
-const noop = (() => {});
+const noop = () => {};
 
 type Props = {
-  onClick?: (value: any) => void,
-  value?: any,
-  caption?: string,
-  renderCaption?: (value: any, caption: string) => string
-}
+  onClick?: (value: any) => void;
+  value?: any;
+  caption?: string;
+};
 
-export const ValueButton:FunctionComponent<Props> = ({
- caption = '',
- value = undefined,
- onClick = noop,
+export const ValueButton: FunctionComponent<Props> = ({
+  caption = '',
+  value = undefined,
+  onClick = noop,
 }) => {
   return (
-    <button onClick={() => onClick(value)}>
+    <button type="button" onClick={() => onClick(value)}>
       {`${caption} ${value !== undefined ? String(value) : ''}`}
     </button>
   );
