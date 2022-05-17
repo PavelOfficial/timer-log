@@ -9,6 +9,9 @@ type Props = {
   subjectConsole: Subject<ActionConsole>;
 };
 
+
+
+
 export const ResponsiveConsole = ({ subjectConsole }: Props) => {
   const lines = useConsole(subjectConsole);
 
