@@ -31,7 +31,9 @@ export const ConsolePanelSimple = (props: Props) => {
           {renderTimerButtons(props.timers, props.onNewTimer, 'Таймер')}
         </div>
         <div>
-          <button type="button" onClick={props.onClear}>Сбросить</button>
+          <button type="button" onClick={props.onClear}>
+            Сбросить
+          </button>
         </div>
       </div>
       <div className="console__log-header">Логи</div>
